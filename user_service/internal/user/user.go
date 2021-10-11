@@ -1,10 +1,10 @@
 package user
 
-type service struct {}
+type service struct{}
 
 type User struct {
-	Id string `json:"id"`
-	Login string `json:"login"`
+	Id       string `json:"id"`
+	Login    string `json:"login"`
 	FullName string `json:"fullName"`
 }
 
