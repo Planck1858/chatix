@@ -1,5 +1,5 @@
 # chatix
-Online chat / video streaming service like Twitch, but with some additional features.
+Online app with chat rooms and video streams.
 
 User can create profile, create chat room, and video stream to his own room.
 
@@ -8,5 +8,4 @@ User can create profile, create chat room, and video stream to his own room.
 2. Profile CRUD
 3. Chat room CRUD
 4. Chat API / websocket: online messaging
-5. Message CRUD: delete message, update
-6. Video streaming
+5. Video streaming
