@@ -1,4 +1,4 @@
-package api
+package v1
 
 //type BriefDecoder interface {
 //	DecodeGetBriefById(r *http.Request) (*GetBriefByIdRequest, error)

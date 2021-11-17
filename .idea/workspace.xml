@@ -5,15 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="080b9b34-d3b4-44b3-8361-53bb2a2850a6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.golangci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/app/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/app/server.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/rep/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/rep/logging_wrap.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/rep/models.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/rep/rep_pg.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/utils/http/options.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/utils/http/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/utils/http/types.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/utils/repository/wrapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/chatix.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/backend/config.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/backend/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/backend/server.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/backend/validator.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/user/user.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/.idea/user_service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/user_service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/api/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/http/v1/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/api/user_decoder.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/http/v1/user_decoder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/cmd/config.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/cmd/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/internal/app/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/internal/app/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/internal/app/server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/internal/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/pkg/logging/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/logging/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/pkg/logging/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/logging/logging.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +65,12 @@
     <setting file="file://$PROJECT_DIR$/../../../../go1.16.5/src/image/geom.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../../../go1.16.5/src/image/color/color.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../../../go1.16.5/src/image/gif/reader.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../../../pkg/mod/github.com/labstack/echo@v3.3.10+incompatible/echo.go" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1ugPOiP1dqIwTcR7jGfZAfVKvH6" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -53,14 +84,20 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/user_service/pkg" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg/utils" />
+      <recent name="$PROJECT_DIR$/internal/user/rep" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/user_service/api/http/v1" />
       <recent name="$PROJECT_DIR$/user_service" />
-      <recent name="$PROJECT_DIR$/api" />
-      <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build github.com/Planck1858/chatix">

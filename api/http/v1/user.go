@@ -1,4 +1,4 @@
-package api
+package v1
 
 //type userController struct {
 //	service user.Service

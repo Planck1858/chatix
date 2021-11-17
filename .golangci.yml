@@ -1,0 +1,63 @@
+linters-settings:
+  govet:
+    check-shadowing: true
+  gocyclo:
+    min-complexity: 15
+  maligned:
+    suggest-new: true
+  dupl:
+    threshold: 200
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  misspell:
+    locale: US
+  lll:
+    line-length: 140
+  goimports:
+    local-prefixes: github.com/golangci/golangci-lint
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+      - experimental
+    disabled-checks:
+      - wrapperFunc
+
+linters:
+  disable-all: true
+  enable:
+    - govet
+    - gocyclo
+    - dupl
+    - lll
+    - gosec
+    - dupl
+    - goconst
+    - depguard
+    - misspell
+    - goimports
+    - gocritic
+    - staticcheck
+    - deadcode
+    - errcheck
+    - unused
+    - gosimple
+    - structcheck
+    - varcheck
+    - ineffassign
+    - typecheck
+    - bodyclose
+    - unconvert
+    - unparam
+    - prealloc
+    - whitespace
+    - scopelint
+
+run:
+  tests: false
+  skip-dirs:
+    - swagger-ui
+    - configs
+    - templates
+    - \.go

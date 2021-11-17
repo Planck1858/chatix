@@ -1,5 +1,7 @@
 package user
 
+import "context"
+
 type service struct{}
 
 type User struct {
@@ -8,18 +10,14 @@ type User struct {
 	FullName string `json:"fullName"`
 }
 
-type Service interface {
-	GetUser() *User
-}
-
-func New() *service {
+func NewService() Service {
 	return &service{}
 }
 
-func (s *service) GetUser() *User {
+func (s *service) GetUser(ctx context.Context, id string) (*User, error) {
 	return &User{
-		Id:       "1",
-		Login:    "ilya",
-		FullName: "Ilya Ilya Ilya",
-	}
+		Id:       id,
+		Login:    "reee",
+		FullName: "reee",
+	}, nil
 }
