@@ -1,4 +1,4 @@
-package rep
+package user
 
 import (
 	"context"
@@ -16,23 +16,24 @@ func RepositoryWithLogger(next Repository) Repository {
 	}
 }
 
-func (s *loggingRep) GetAllUsers(ctx context.Context) (_ []User, err error) {
-	log, _ := logging.GetFromContext(ctx)
+func (s *loggingRep) GetAllUsers(ctx context.Context) (u []User, err error) {
+	log := logging.GetLogger()
 	log.Info("user.service.GetAllUsers started")
 
 	defer func() {
 		if err != nil {
 			log.Error("user.service.GetAllUsers failed: ", err)
 		} else {
-			log.Info("user.service.GetAllUsers succeed")
+			log.With("users", spew.Sprintln(u)).
+				Info("user.service.GetAllUsers succeed")
 		}
 	}()
 
 	return s.next.GetAllUsers(ctx)
 }
 
-func (s *loggingRep) GetUser(ctx context.Context, id string) (_ *User, err error) {
-	log, _ := logging.GetFromContext(ctx)
+func (s *loggingRep) GetUser(ctx context.Context, id string) (u *User, err error) {
+	log := logging.GetLogger()
 	log.With("id", id).
 		Info("user.service.GetUser started")
 
@@ -40,7 +41,8 @@ func (s *loggingRep) GetUser(ctx context.Context, id string) (_ *User, err error
 		if err != nil {
 			log.Error("user.service.GetUser failed: ", err)
 		} else {
-			log.Info("user.service.GetUser succeed")
+			log.With("user", spew.Sprintln(u)).
+				Info("user.service.GetUser succeed")
 		}
 	}()
 
@@ -48,7 +50,7 @@ func (s *loggingRep) GetUser(ctx context.Context, id string) (_ *User, err error
 }
 
 func (s *loggingRep) CreateUser(ctx context.Context, user *User) (id string, err error) {
-	log, _ := logging.GetFromContext(ctx)
+	log := logging.GetLogger()
 	log.With("user", spew.Sprintln(user)).
 		Info("user.service.CreateUser started")
 
@@ -65,7 +67,7 @@ func (s *loggingRep) CreateUser(ctx context.Context, user *User) (id string, err
 }
 
 func (s *loggingRep) UpdateUser(ctx context.Context, user *User) (err error) {
-	log, _ := logging.GetFromContext(ctx)
+	log := logging.GetLogger()
 	log.With("user", spew.Sprintln(user)).
 		Info("user.service.UpdateUser started")
 
@@ -81,7 +83,7 @@ func (s *loggingRep) UpdateUser(ctx context.Context, user *User) (err error) {
 }
 
 func (s *loggingRep) DeleteUser(ctx context.Context, id string) (err error) {
-	log, _ := logging.GetFromContext(ctx)
+	log := logging.GetLogger()
 	log.With("id", id).
 		Info("user.service.DeleteUser started")
 

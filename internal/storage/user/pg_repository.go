@@ -1,4 +1,4 @@
-package rep
+package user
 
 import (
 	"context"
@@ -27,7 +27,7 @@ func getAllUsers(ctx context.Context, d utils.SqlDriver) ([]User, error) {
 		id,
 		login,
 		name,
-		phone,
+		email,
 		role,
 		created_at,
 		updated_at,
@@ -50,7 +50,7 @@ func getUser(ctx context.Context, d utils.SqlDriver, id string) (*User, error) {
 		id,
 		login,
 		name,
-		phone,
+		email,
 		role,
 		created_at,
 		updated_at,
@@ -78,7 +78,7 @@ func createUser(ctx context.Context, d utils.SqlDriver, u *User) (id string, err
 		id, 
 		login,
 		name,
-		phone,
+		email,
 		role,
 		created_at,
 		updated_at
@@ -87,7 +87,7 @@ func createUser(ctx context.Context, d utils.SqlDriver, u *User) (id string, err
 		:id, 
 		:login,
 		:name,
-		:phone,
+		:email,
 		:role,
 		:created_at,
 		:updated_at
@@ -112,7 +112,7 @@ func updateUser(ctx context.Context, d utils.SqlDriver, user *User) error {
 	UPDATE chatix.user SET
 		login = :login,
 		name = :name,
-		phone = :phone,
+		email = :email,
 		role = :role,
 		updated_at = :updated_at
 	WHERE id = :id;`
