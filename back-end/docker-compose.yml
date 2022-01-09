@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  postgres:
+    container_name: chatix-pg-db
+    restart: unless-stopped
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: chatix
+    ports:
+      - "5432:5432"

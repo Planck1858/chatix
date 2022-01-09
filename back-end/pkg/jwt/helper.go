@@ -2,9 +2,9 @@ package jwt
 
 import (
 	"encoding/json"
-	"githab.com/Planck1858/chatix/internal/config"
-	"githab.com/Planck1858/chatix/internal/user"
-	"githab.com/Planck1858/chatix/pkg/logging"
+	"githab.com/Planck1858/chatix/back-end/internal/config"
+	"githab.com/Planck1858/chatix/back-end/internal/user"
+	"githab.com/Planck1858/chatix/back-end/pkg/logging"
 	"github.com/cristalhq/jwt/v3"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"

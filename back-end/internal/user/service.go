@@ -2,11 +2,13 @@ package user
 
 import (
 	"context"
-	"githab.com/Planck1858/chatix/internal/storage/user"
-	"githab.com/Planck1858/chatix/pkg/logging"
+	"githab.com/Planck1858/chatix/back-end/internal/storage/user"
+	"githab.com/Planck1858/chatix/back-end/pkg/logging"
 	"github.com/go-playground/validator/v10"
 	//validation "github.com/go-ozzo/ozzo-validation/v4"
 )
+
+const logServicePath = "user.service."
 
 type service struct {
 	rep       user.Repository
@@ -25,12 +27,12 @@ func (s *service) GetAllUsers(ctx context.Context) (u []*User, err error) {
 	log := logging.GetLogger()
 	defer func() {
 		if err != nil {
-			log.With(err).Error("user.service." + funcName + " finished with error")
+			log.With(err).Error(logServicePath + funcName + " finished with error")
 		} else {
-			log.Info("user.service." + funcName + " finished correctly")
+			log.Info(logServicePath + funcName + " finished correctly")
 		}
 	}()
-	log.Info("user.service." + funcName + " started...")
+	log.Info(logServicePath + funcName + " started...")
 
 	repUsers, err := s.rep.GetAllUsers(ctx)
 	if err != nil {
@@ -46,14 +48,35 @@ func (s *service) GetUser(ctx context.Context, id string) (u *User, err error) {
 	log := logging.GetLogger()
 	defer func() {
 		if err != nil {
-			log.With(err).Error("user.service." + funcName + " finished with error")
+			log.With(err).Error(logServicePath + funcName + " finished with error")
 		} else {
-			log.Info("user.service." + funcName + " finished correctly")
+			log.Info(logServicePath + funcName + " finished correctly")
 		}
 	}()
-	log.Info("user.service." + funcName + " started...")
+	log.Info(logServicePath + funcName + " started...")
 
 	repUser, err := s.rep.GetUser(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	u = repUser.ConvToServ()
+	return u, nil
+}
+
+func (s *service) GetUserByEmail(ctx context.Context, email string) (u *User, err error) {
+	funcName := "GetUserByEmail"
+	log := logging.GetLogger()
+	defer func() {
+		if err != nil {
+			log.With(err).Error(logServicePath + funcName + " finished with error")
+		} else {
+			log.Info(logServicePath + funcName + " finished correctly")
+		}
+	}()
+	log.Info(logServicePath + funcName + " started...")
+
+	repUser, err := s.rep.GetUserByEmail(ctx, email)
 	if err != nil {
 		return nil, err
 	}
@@ -67,12 +90,12 @@ func (s *service) CreateUser(ctx context.Context, userDto *CreateUserDTO) (id st
 	log := logging.GetLogger()
 	defer func() {
 		if err != nil {
-			log.With(err).Error("user.service." + funcName + " finished with error")
+			log.With(err).Error(logServicePath + funcName + " finished with error")
 		} else {
-			log.Info("user.service." + funcName + " finished correctly")
+			log.Info(logServicePath + funcName + " finished correctly")
 		}
 	}()
-	log.Info("user.service." + funcName + " started...")
+	log.Info(logServicePath + funcName + " started...")
 
 	err = s.validator.Struct(userDto)
 
@@ -89,12 +112,12 @@ func (s *service) UpdateUser(ctx context.Context, userDto *UpdateUserDTO) (err e
 	log := logging.GetLogger()
 	defer func() {
 		if err != nil {
-			log.With(err).Error("user.service." + funcName + " finished with error")
+			log.With(err).Error(logServicePath + funcName + " finished with error")
 		} else {
-			log.Info("user.service." + funcName + " finished correctly")
+			log.Info(logServicePath + funcName + " finished correctly")
 		}
 	}()
-	log.Info("user.service." + funcName + " started...")
+	log.Info(logServicePath + funcName + " started...")
 
 	err = s.validator.Struct(userDto)
 
@@ -111,12 +134,12 @@ func (s *service) DeleteUser(ctx context.Context, id string) (err error) {
 	log := logging.GetLogger()
 	defer func() {
 		if err != nil {
-			log.With(err).Error("user.service." + funcName + " finished with error")
+			log.With(err).Error(logServicePath + funcName + " finished with error")
 		} else {
-			log.Info("user.service." + funcName + " finished correctly")
+			log.Info(logServicePath + funcName + " finished correctly")
 		}
 	}()
-	log.Info("user.service." + funcName + " started...")
+	log.Info(logServicePath + funcName + " started...")
 
 	err = s.rep.DeleteUser(ctx, id)
 	if err != nil {

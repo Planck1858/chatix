@@ -3,7 +3,7 @@ package jwt
 import (
 	"context"
 	"encoding/json"
-	"githab.com/Planck1858/chatix/internal/config"
+	"githab.com/Planck1858/chatix/back-end/internal/config"
 	"github.com/cristalhq/jwt/v3"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"

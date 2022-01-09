@@ -2,9 +2,11 @@ package user
 
 import (
 	"context"
-	"githab.com/Planck1858/chatix/pkg/logging"
+	"githab.com/Planck1858/chatix/back-end/pkg/logging"
 	"github.com/davecgh/go-spew/spew"
 )
+
+const logRepPath = "user.service."
 
 type loggingRep struct {
 	next Repository
@@ -17,15 +19,16 @@ func RepositoryWithLogger(next Repository) Repository {
 }
 
 func (s *loggingRep) GetAllUsers(ctx context.Context) (u []User, err error) {
+	funcName := "GetAllUsers"
 	log := logging.GetLogger()
-	log.Info("user.service.GetAllUsers started")
+	log.Info(logRepPath + funcName + " started")
 
 	defer func() {
 		if err != nil {
-			log.Error("user.service.GetAllUsers failed: ", err)
+			log.Error(logRepPath+funcName+" failed: ", err)
 		} else {
 			log.With("users", spew.Sprintln(u)).
-				Info("user.service.GetAllUsers succeed")
+				Info(logRepPath + funcName + " succeed")
 		}
 	}()
 
@@ -33,33 +36,53 @@ func (s *loggingRep) GetAllUsers(ctx context.Context) (u []User, err error) {
 }
 
 func (s *loggingRep) GetUser(ctx context.Context, id string) (u *User, err error) {
+	funcName := "GetUser"
 	log := logging.GetLogger()
 	log.With("id", id).
-		Info("user.service.GetUser started")
+		Info(logRepPath + funcName + " started")
 
 	defer func() {
 		if err != nil {
-			log.Error("user.service.GetUser failed: ", err)
+			log.Error(logRepPath+funcName+" failed: ", err)
 		} else {
 			log.With("user", spew.Sprintln(u)).
-				Info("user.service.GetUser succeed")
+				Info(logRepPath + funcName + " succeed")
 		}
 	}()
 
 	return s.next.GetUser(ctx, id)
 }
 
-func (s *loggingRep) CreateUser(ctx context.Context, user *User) (id string, err error) {
+func (s *loggingRep) GetUserByEmail(ctx context.Context, email string) (u *User, err error) {
+	funcName := "GetUserByEmail"
 	log := logging.GetLogger()
-	log.With("user", spew.Sprintln(user)).
-		Info("user.service.CreateUser started")
+	log.With("email", email).
+		Info(logRepPath + funcName + " started")
 
 	defer func() {
 		if err != nil {
-			log.Error("user.service.CreateUser failed: ", err)
+			log.Error(logRepPath+funcName+" failed: ", err)
+		} else {
+			log.With("user", spew.Sprintln(u)).
+				Info(logRepPath + funcName + " succeed")
+		}
+	}()
+
+	return s.next.GetUserByEmail(ctx, email)
+}
+
+func (s *loggingRep) CreateUser(ctx context.Context, user *User) (id string, err error) {
+	funcName := "CreateUser"
+	log := logging.GetLogger()
+	log.With("user", spew.Sprintln(user)).
+		Info(logRepPath + funcName + " started")
+
+	defer func() {
+		if err != nil {
+			log.Error(logRepPath+funcName+" failed: ", err)
 		} else {
 			log.With("user id", id).
-				Info("user.service.CreateUser succeed")
+				Info(logRepPath + funcName + " succeed")
 		}
 	}()
 
@@ -67,15 +90,16 @@ func (s *loggingRep) CreateUser(ctx context.Context, user *User) (id string, err
 }
 
 func (s *loggingRep) UpdateUser(ctx context.Context, user *User) (err error) {
+	funcName := "UpdateUser"
 	log := logging.GetLogger()
 	log.With("user", spew.Sprintln(user)).
-		Info("user.service.UpdateUser started")
+		Info(logRepPath + "UpdateUser started")
 
 	defer func() {
 		if err != nil {
-			log.Error("user.service.UpdateUser failed: ", err)
+			log.Error(logRepPath+funcName+" failed: ", err)
 		} else {
-			log.Info("user.service.UpdateUser succeed")
+			log.Info(logRepPath + funcName + " succeed")
 		}
 	}()
 
@@ -83,15 +107,16 @@ func (s *loggingRep) UpdateUser(ctx context.Context, user *User) (err error) {
 }
 
 func (s *loggingRep) DeleteUser(ctx context.Context, id string) (err error) {
+	funcName := "DeleteUser"
 	log := logging.GetLogger()
 	log.With("id", id).
-		Info("user.service.DeleteUser started")
+		Info(logRepPath + funcName + " started")
 
 	defer func() {
 		if err != nil {
-			log.Error("user.service.DeleteUser failed: ", err)
+			log.Error(logRepPath+funcName+" failed: ", err)
 		} else {
-			log.Info("user.service.DeleteUser succeed")
+			log.Info(logRepPath + funcName + " succeed")
 		}
 	}()
 

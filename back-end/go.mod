@@ -1,4 +1,4 @@
-module githab.com/Planck1858/chatix
+module githab.com/Planck1858/chatix/back-end
 
 go 1.17
 

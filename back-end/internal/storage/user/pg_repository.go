@@ -2,7 +2,7 @@ package user
 
 import (
 	"context"
-	utils "githab.com/Planck1858/chatix/pkg/utils/repository"
+	utils "githab.com/Planck1858/chatix/back-end/pkg/utils/repository"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"time"
@@ -59,6 +59,29 @@ func getUser(ctx context.Context, d utils.SqlDriver, id string) (*User, error) {
 
 	var u User
 	err := d.GetContext(ctx, &u, query, id)
+
+	return &u, err
+}
+
+func (r *repository) GetUserByEmail(ctx context.Context, email string) (*User, error) {
+	return getUserByEmail(ctx, r.conn, email)
+}
+
+func getUserByEmail(ctx context.Context, d utils.SqlDriver, email string) (*User, error) {
+	query := `
+	SELECT
+		id,
+		login,
+		name,
+		email,
+		role,
+		created_at,
+		updated_at,
+		deleted_at
+	FROM chatix.user WHERE email = $1 AND deleted_at is null;`
+
+	var u User
+	err := d.GetContext(ctx, &u, query, email)
 
 	return &u, err
 }

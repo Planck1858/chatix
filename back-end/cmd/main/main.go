@@ -5,11 +5,11 @@ import (
 	"contrib.go.opencensus.io/integrations/ocsql"
 	"database/sql"
 	"fmt"
-	controllers "githab.com/Planck1858/chatix/internal/api/http"
-	"githab.com/Planck1858/chatix/internal/config"
-	user_rep "githab.com/Planck1858/chatix/internal/storage/user"
-	user_service "githab.com/Planck1858/chatix/internal/user"
-	"githab.com/Planck1858/chatix/pkg/logging"
+	controllers "githab.com/Planck1858/chatix/back-end/internal/api/http"
+	"githab.com/Planck1858/chatix/back-end/internal/config"
+	user_rep "githab.com/Planck1858/chatix/back-end/internal/storage/user"
+	user_service "githab.com/Planck1858/chatix/back-end/internal/user"
+	"githab.com/Planck1858/chatix/back-end/pkg/logging"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
@@ -64,7 +64,7 @@ func main() {
 
 	log.Info("services initializing...")
 	//jwtHelper := jwt.NewHelper(log)
-	userServ := user_service.NewUserService(log, userRep)
+	userServ := user_service.NewUserService(userRep)
 
 	log.Info("server controllers initializing...")
 	controllers.NewUserController(log, userServ).Register(e)
