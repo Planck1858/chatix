@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"githab.com/Planck1858/chatix/back-end/internal/user"
+	"githab.com/Planck1858/chatix/back-end/pkg/jwt"
 	"githab.com/Planck1858/chatix/back-end/pkg/logging"
 	"github.com/go-playground/validator/v10"
 	"github.com/pkg/errors"
@@ -13,14 +14,16 @@ const logServicePath = "auth.service."
 const passwordHashCost = 14
 
 type service struct {
-	userService user.Service
 	validator   *validator.Validate
+	userService user.Service
+	jwtHelper   jwt.Helper
 }
 
-func NewService(userService user.Service) Service {
+func NewService(userService user.Service, jwtHelper jwt.Helper) Service {
 	return &service{
-		userService: userService,
 		validator:   validator.New(),
+		userService: userService,
+		jwtHelper:   jwtHelper,
 	}
 }
 
@@ -88,8 +91,10 @@ func (s *service) SignIn(ctx context.Context, dto *SignInDTO) (ok bool, err erro
 
 	err = bcrypt.CompareHashAndPassword(u.Password, []byte(dto.Password))
 	if err != nil {
-		return false, errors.New("password in incorrect")
+		return false, errors.New("password is incorrect")
 	}
+
+	s.jwtHelper.GenerateAccessToken(u)
 
 	return true, nil
 }

@@ -15,27 +15,18 @@ import (
 var (
 	ErrRefreshTokenDoesntExist = errors.New("refresh token doesn't exist")
 	ErrInvalidUserBytes        = errors.New("invalid user bytes")
+	ErrEmptyUser               = errors.New("empty user")
 )
 
 const (
 	defaultTokenExpiration = time.Minute * 60
+
+	logServicePath = "jwt.helper."
 )
 
 type Helper interface {
-	GenerateAccessToken(u user.User) (string, error)
-	UpdateRefreshToken(rt RefreshToken) (string, error)
-}
-
-type helper struct {
-	Log               logging.Logger
-	RefreshTokenCache sync.Map // map[string][]byte -> refreshTokenUuid : user.User([]byte)
-}
-
-func NewHelper(logger logging.Logger) Helper {
-	return &helper{
-		Log:               logger,
-		RefreshTokenCache: sync.Map{},
-	}
+	GenerateAccessToken(u *user.User) (*Token, error)
+	UpdateRefreshToken(rt RefreshToken) (*Token, error)
 }
 
 type UserClaims struct {
@@ -44,36 +35,69 @@ type UserClaims struct {
 }
 
 type RefreshToken struct {
-	RefreshToken string `json:"refresh_token"`
+	Token string `json:"refresh_token"`
 }
 
-func (h *helper) UpdateRefreshToken(rt RefreshToken) (string, error) {
-	userBytesRaw, ok := h.RefreshTokenCache.LoadAndDelete(rt.RefreshToken)
+type Token struct {
+	Token *jwt.Token
+	RT    string
+}
+
+type helper struct {
+	RefreshTokenCache sync.Map // map[string][]byte -> refreshTokenId : []byte(user.User)
+}
+
+func NewHelper() Helper {
+	return &helper{
+		RefreshTokenCache: sync.Map{},
+	}
+}
+
+func (h *helper) UpdateRefreshToken(rt RefreshToken) (_ *Token, err error) {
+	funcName := "UpdateRefreshToken"
+	log := logging.GetLogger()
+	defer func() {
+		if err != nil {
+			log.With(err).Error(logServicePath + funcName + " finished with error")
+		} else {
+			log.Info(logServicePath + funcName + " finished correctly")
+		}
+	}()
+	log.Info(logServicePath + funcName + " started...")
+
+	userBytesRaw, ok := h.RefreshTokenCache.LoadAndDelete(rt.Token)
 	if !ok {
-		return "", ErrRefreshTokenDoesntExist
+		return nil, ErrRefreshTokenDoesntExist
 	}
 
 	u := user.User{}
 	userBytes, ok := userBytesRaw.([]byte)
 	if !ok {
-		return "", ErrInvalidUserBytes
+		return nil, ErrInvalidUserBytes
 	}
-	err := json.Unmarshal(userBytes, &u)
+	err = json.Unmarshal(userBytes, &u)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return h.GenerateAccessToken(u)
+	return h.GenerateAccessToken(&u)
 }
 
-func (h *helper) GenerateAccessToken(u user.User) (t string, err error) {
-	h.Log.Info("jwt.GenerateAccessToken starting")
-
+func (h *helper) GenerateAccessToken(u *user.User) (t *Token, err error) {
+	funcName := "GenerateAccessToken"
+	log := logging.GetLogger()
 	defer func() {
 		if err != nil {
-			h.Log.Error(errors.Wrap(err, "jwt.GenerateAccessToken error"))
+			log.With(err).Error(logServicePath + funcName + " finished with error")
+		} else {
+			log.Info(logServicePath + funcName + " finished correctly")
 		}
 	}()
+	log.Info(logServicePath + funcName + " started...")
+
+	if u == nil {
+		return t, ErrEmptyUser
+	}
 
 	secretKey := []byte(config.GetConfig().Auth.Secret)
 	signer, err := jwt.NewSignerHS(jwt.HS256, secretKey)
@@ -90,7 +114,7 @@ func (h *helper) GenerateAccessToken(u user.User) (t string, err error) {
 		},
 		Email: u.Email,
 	}
-	token, err := builder.Build(claims)
+	t.Token, err = builder.Build(claims)
 	if err != nil {
 		return t, err
 	}
@@ -102,15 +126,7 @@ func (h *helper) GenerateAccessToken(u user.User) (t string, err error) {
 		return t, err
 	}
 
-	jsonBytes, err := json.Marshal(map[string]string{
-		"token":         token.String(),
-		"refresh_token": refreshTokenUuid.String(),
-	})
-	if err != nil {
-		return t, err
-	}
-	t = string(jsonBytes)
+	t.RT = refreshTokenUuid
 
-	h.Log.Info("jwt.GenerateAccessToken finished correctly")
 	return t, nil
 }
